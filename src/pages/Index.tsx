@@ -1,13 +1,193 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/layout/AppSidebar';
+import { TaskStats } from '@/components/tasks/TaskStats';
+import { TaskFilters } from '@/components/tasks/TaskFilters';
+import { TaskBoard } from '@/components/tasks/TaskBoard';
+import Flows from './Flows';
+
+// Mock data for development
+import { useTaskStore } from '@/store/taskStore';
+import { useFlowStore } from '@/store/flowStore';
+import { Task, Flow, Label } from '@/types';
+
+const mockLabels: Label[] = [
+  { id: '1', name: 'Bug', color: '#ef4444', projectId: '1' },
+  { id: '2', name: 'Feature', color: '#3b82f6', projectId: '1' },
+  { id: '3', name: 'Design', color: '#8b5cf6', projectId: '1' },
+];
+
+const mockTasks: Task[] = [
+  {
+    id: '1',
+    projectId: '1',
+    title: 'Fix login authentication bug',
+    description: 'Users are unable to log in with their credentials. Need to investigate the authentication flow.',
+    status: 'todo',
+    priority: 'high',
+    assigneeId: 'user1',
+    dueAt: new Date('2024-01-15'),
+    createdById: 'user1',
+    createdAt: new Date('2024-01-10'),
+    updatedAt: new Date('2024-01-10'),
+    labels: [mockLabels[0]],
+    comments: [],
+  },
+  {
+    id: '2',
+    projectId: '1',
+    title: 'Implement dark mode toggle',
+    description: 'Add a toggle switch in the settings to switch between light and dark themes.',
+    status: 'in-progress',
+    priority: 'medium',
+    assigneeId: 'user2',
+    createdById: 'user1',
+    createdAt: new Date('2024-01-08'),
+    updatedAt: new Date('2024-01-12'),
+    labels: [mockLabels[1]],
+    comments: [],
+  },
+  {
+    id: '3',
+    projectId: '1',
+    title: 'Design new landing page',
+    description: 'Create wireframes and mockups for the new landing page design.',
+    status: 'review',
+    priority: 'low',
+    createdById: 'user1',
+    createdAt: new Date('2024-01-05'),
+    updatedAt: new Date('2024-01-13'),
+    labels: [mockLabels[2]],
+    comments: [],
+  },
+  {
+    id: '4',
+    projectId: '1',
+    title: 'Update documentation',
+    description: 'Update the API documentation with the latest changes.',
+    status: 'done',
+    priority: 'low',
+    createdById: 'user2',
+    createdAt: new Date('2024-01-01'),
+    updatedAt: new Date('2024-01-14'),
+    labels: [],
+    comments: [],
+  },
+];
+
+const mockFlows: Flow[] = [
+  {
+    id: '1',
+    projectId: '1',
+    name: 'Auto-assign Bug Reports',
+    enabled: true,
+    graph: { nodes: [], edges: [] },
+    version: 1,
+    createdAt: new Date('2024-01-01'),
+    updatedAt: new Date('2024-01-01'),
+  },
+  {
+    id: '2',
+    projectId: '1',
+    name: 'Daily Standup Reminder',
+    enabled: false,
+    graph: { nodes: [], edges: [] },
+    version: 1,
+    createdAt: new Date('2024-01-02'),
+    updatedAt: new Date('2024-01-02'),
+  }
+];
 
 const Index = () => {
+  const location = useLocation();
+  const { tasks, setTasks } = useTaskStore();
+  const { flows, setFlows } = useFlowStore();
+
+  // Initialize mock data
+  React.useEffect(() => {
+    if (tasks.length === 0) {
+      setTasks(mockTasks);
+    }
+    if (flows.length === 0) {
+      setFlows(mockFlows);
+    }
+  }, [tasks.length, flows.length, setTasks, setFlows]);
+
+  const renderContent = () => {
+    switch (location.pathname) {
+      case '/flows':
+        return <Flows />;
+      case '/calendar':
+        return (
+          <div className="p-6 bg-gradient-canvas min-h-screen">
+            <h1 className="text-2xl font-bold bg-gradient-text bg-clip-text text-transparent mb-4">
+              Calendar View
+            </h1>
+            <p className="text-muted-foreground">Calendar view coming soon...</p>
+          </div>
+        );
+      case '/reports':
+        return (
+          <div className="p-6 bg-gradient-canvas min-h-screen">
+            <h1 className="text-2xl font-bold bg-gradient-text bg-clip-text text-transparent mb-4">
+              Reports & Analytics
+            </h1>
+            <p className="text-muted-foreground">Reports and analytics coming soon...</p>
+          </div>
+        );
+      case '/settings':
+        return (
+          <div className="p-6 bg-gradient-canvas min-h-screen">
+            <h1 className="text-2xl font-bold bg-gradient-text bg-clip-text text-transparent mb-4">
+              Settings
+            </h1>
+            <p className="text-muted-foreground">Settings panel coming soon...</p>
+          </div>
+        );
+      default:
+        return (
+          <div className="bg-gradient-canvas min-h-screen">
+            <div className="p-6 space-y-6">
+              <div>
+                <h1 className="text-2xl font-bold bg-gradient-text bg-clip-text text-transparent">
+                  Tasks
+                </h1>
+                <p className="text-muted-foreground">
+                  Manage your tasks and track progress
+                </p>
+              </div>
+              
+              <TaskStats />
+              <TaskFilters />
+              <TaskBoard />
+            </div>
+          </div>
+        );
+    }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full bg-background">
+        <AppSidebar />
+        
+        <div className="flex-1 flex flex-col">
+          <header className="h-12 flex items-center border-b border-border/40 bg-card/30 backdrop-blur-sm">
+            <SidebarTrigger className="ml-4" />
+            <div className="ml-4">
+              <h2 className="font-semibold text-sm text-foreground">
+                Visual Thoughts - Task Management Platform
+              </h2>
+            </div>
+          </header>
+          
+          <main className="flex-1 overflow-auto">
+            {renderContent()}
+          </main>
+        </div>
       </div>
-    </div>
+    </SidebarProvider>
   );
 };
 
