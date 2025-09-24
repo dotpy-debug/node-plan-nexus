@@ -6,6 +6,7 @@ import { TaskStats } from '@/components/tasks/TaskStats';
 import { TaskFilters } from '@/components/tasks/TaskFilters';
 import { TaskBoard } from '@/components/tasks/TaskBoard';
 import Flows from './Flows';
+import Dashboard from './Dashboard';
 
 // Mock data for development
 import { useTaskStore } from '@/store/taskStore';
@@ -116,6 +117,25 @@ const Index = () => {
 
   const renderContent = () => {
     switch (location.pathname) {
+      case '/tasks':
+        return (
+          <div className="bg-gradient-canvas min-h-screen">
+            <div className="p-6 space-y-6">
+              <div>
+                <h1 className="text-2xl font-bold bg-gradient-text bg-clip-text text-transparent">
+                  Tasks
+                </h1>
+                <p className="text-muted-foreground">
+                  Manage your tasks and track progress
+                </p>
+              </div>
+              
+              <TaskStats />
+              <TaskFilters />
+              <TaskBoard />
+            </div>
+          </div>
+        );
       case '/flows':
         return <Flows />;
       case '/calendar':
@@ -146,24 +166,7 @@ const Index = () => {
           </div>
         );
       default:
-        return (
-          <div className="bg-gradient-canvas min-h-screen">
-            <div className="p-6 space-y-6">
-              <div>
-                <h1 className="text-2xl font-bold bg-gradient-text bg-clip-text text-transparent">
-                  Tasks
-                </h1>
-                <p className="text-muted-foreground">
-                  Manage your tasks and track progress
-                </p>
-              </div>
-              
-              <TaskStats />
-              <TaskFilters />
-              <TaskBoard />
-            </div>
-          </div>
-        );
+        return <Dashboard />;
     }
   };
 
@@ -177,7 +180,7 @@ const Index = () => {
             <SidebarTrigger className="ml-4" />
             <div className="ml-4">
               <h2 className="font-semibold text-sm text-foreground">
-                Visual Thoughts - Task Management Platform
+                Pythoughts - Task & Flow Management Platform
               </h2>
             </div>
           </header>

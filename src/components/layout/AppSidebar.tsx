@@ -19,15 +19,21 @@ import {
   BarChart3, 
   Settings,
   Plus,
-  User
+  User,
+  Home
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const items = [
   {
-    title: 'Tasks',
+    title: 'Dashboard',
     url: '/',
+    icon: Home,
+  },
+  {
+    title: 'Tasks',
+    url: '/tasks',
     icon: CheckSquare,
   },
   {
@@ -72,9 +78,9 @@ export function AppSidebar() {
           </div>
           <div>
             <h1 className="font-bold text-lg bg-gradient-text bg-clip-text text-transparent">
-              Visual
+              Pythoughts
             </h1>
-            <p className="text-xs text-muted-foreground">Thoughts</p>
+            <p className="text-xs text-muted-foreground">Task & Flow Platform</p>
           </div>
         </div>
       </SidebarHeader>

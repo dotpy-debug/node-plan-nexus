@@ -96,4 +96,7 @@ export interface FlowRun {
 }
 
 export type ViewMode = 'list' | 'board' | 'calendar';
-export type SidebarSection = 'tasks' | 'flows' | 'calendar' | 'reports' | 'settings';
+export type SidebarSection = 'dashboard' | 'tasks' | 'flows' | 'calendar' | 'reports' | 'settings';
+
+// Re-export community types
+export type { Post, PostComment, CommunityActivity, CommunityStats } from './community';
