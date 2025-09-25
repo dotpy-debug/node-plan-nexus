@@ -172,23 +172,21 @@ const Index = () => {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-background">
+      <div className="h-full flex w-full bg-terminal-bg">
         <AppSidebar />
-        
-        <div className="flex-1 flex flex-col">
-          <header className="h-12 flex items-center border-b border-border/40 bg-card/30 backdrop-blur-sm">
-            <SidebarTrigger className="ml-4" />
-            <div className="ml-4">
-              <h2 className="font-semibold text-sm text-foreground">
-                Pythoughts - Task & Flow Management Platform
-              </h2>
+        <main className="flex-1 bg-terminal-bg">
+          <header className="flex h-10 shrink-0 items-center gap-2 border-b border-terminal-border px-4 bg-terminal-title-bar/30">
+            <SidebarTrigger className="-ml-1 text-terminal-text hover:text-primary" />
+            <div className="flex-1 text-center">
+              <span className="text-xs text-terminal-text font-mono">
+                ~/pythoughts/{location.pathname === '/' ? 'dashboard' : location.pathname.slice(1)}
+              </span>
             </div>
           </header>
-          
-          <main className="flex-1 overflow-auto">
+          <div className="flex flex-1 flex-col bg-terminal-bg overflow-auto">
             {renderContent()}
-          </main>
-        </div>
+          </div>
+        </main>
       </div>
     </SidebarProvider>
   );

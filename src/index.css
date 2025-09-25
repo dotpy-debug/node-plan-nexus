@@ -2,29 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
-/* n8n-inspired design system with dark theme and purple accents */
+/* macOS Terminal-inspired design system with dark theme and purple accents */
 
 @layer base {
   :root {
-    /* Base colors - light theme */
-    --background: 240 5% 6%;
-    --foreground: 0 0% 98%;
+    /* Terminal colors */
+    --terminal-bg: 0 0% 8%;
+    --terminal-border: 0 0% 20%;
+    --terminal-title-bar: 0 0% 12%;
+    --terminal-text: 0 0% 85%;
     
-    --card: 240 4% 8%;
-    --card-foreground: 0 0% 98%;
+    /* Traffic light dots */
+    --dot-red: 0 73% 67%;
+    --dot-yellow: 45 95% 58%;
+    --dot-green: 142 69% 49%;
     
-    --popover: 240 4% 8%;
-    --popover-foreground: 0 0% 98%;
+    /* Base colors adapted for terminal */
+    --background: 0 0% 8%;
+    --foreground: 0 0% 85%;
+    
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 85%;
+    
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 85%;
     
     /* n8n-inspired purple primary */
     --primary: 258 100% 72%;
     --primary-foreground: 0 0% 100%;
     
-    --secondary: 240 4% 12%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 85%;
     
-    --muted: 240 4% 10%;
-    --muted-foreground: 240 5% 64%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
     
     --accent: 258 100% 72%;
     --accent-foreground: 0 0% 100%;
@@ -32,75 +43,78 @@
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
     
-    --border: 240 4% 16%;
-    --input: 240 4% 12%;
+    --border: 0 0% 20%;
+    --input: 0 0% 12%;
     --ring: 258 100% 72%;
     
     --radius: 0.5rem;
     
     /* Canvas specific */
-    --canvas: 240 5% 4%;
+    --canvas: 0 0% 6%;
     
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(258 100% 72%), hsl(280 100% 70%));
-    --gradient-secondary: linear-gradient(135deg, hsl(240 4% 12%), hsl(240 4% 16%));
+    --gradient-secondary: linear-gradient(135deg, hsl(0 0% 12%), hsl(0 0% 16%));
     --gradient-accent: linear-gradient(135deg, hsl(200 100% 70%), hsl(258 100% 72%));
-    --gradient-canvas: linear-gradient(135deg, hsl(240 5% 4%), hsl(240 5% 6%));
+    --gradient-canvas: linear-gradient(135deg, hsl(0 0% 6%), hsl(0 0% 8%));
     --gradient-text: linear-gradient(135deg, hsl(258 100% 72%), hsl(280 100% 70%));
+    --gradient-terminal: linear-gradient(135deg, hsl(0 0% 8%), hsl(0 0% 12%));
     
     /* Shadows */
     --shadow-glow: 0 0 40px hsl(258 100% 72% / 0.3);
     --shadow-soft: 0 8px 32px hsl(0 0% 0% / 0.32);
     --shadow-card: 0 4px 16px hsl(0 0% 0% / 0.24);
+    --shadow-terminal: 0 10px 50px hsl(0 0% 0% / 0.5);
+    --shadow-terminal-inset: inset 0 1px 0 hsl(0 0% 100% / 0.1);
     
     /* Sidebar */
-    --sidebar-background: 240 5% 8%;
-    --sidebar-foreground: 0 0% 98%;
+    --sidebar-background: 0 0% 10%;
+    --sidebar-foreground: 0 0% 85%;
     --sidebar-primary: 258 100% 72%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 4% 12%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 240 4% 16%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 0 0% 85%;
+    --sidebar-border: 0 0% 20%;
     --sidebar-ring: 258 100% 72%;
   }
 
   .dark {
-    /* Same as root since we're dark by default */
-    --background: 240 5% 6%;
-    --foreground: 0 0% 98%;
+    /* Same as root since we're terminal dark by default */
+    --background: 0 0% 8%;
+    --foreground: 0 0% 85%;
     
-    --card: 240 4% 8%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 85%;
     
-    --popover: 240 4% 8%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 85%;
     
     --primary: 258 100% 72%;
     --primary-foreground: 0 0% 100%;
     
-    --secondary: 240 4% 12%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 85%;
     
-    --muted: 240 4% 10%;
-    --muted-foreground: 240 5% 64%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
     
     --accent: 258 100% 72%;
     --accent-foreground: 0 0% 100%;
     
     --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 0 0% 85%;
     
-    --border: 240 4% 16%;
-    --input: 240 4% 12%;
+    --border: 0 0% 20%;
+    --input: 0 0% 12%;
     --ring: 258 100% 72%;
     
-    --sidebar-background: 240 5% 8%;
-    --sidebar-foreground: 0 0% 98%;
+    --sidebar-background: 0 0% 10%;
+    --sidebar-foreground: 0 0% 85%;
     --sidebar-primary: 258 100% 72%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 4% 12%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 240 4% 16%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 0 0% 85%;
+    --sidebar-border: 0 0% 20%;
     --sidebar-ring: 258 100% 72%;
   }
 }
@@ -112,5 +126,47 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  }
+  
+  /* Terminal window styling */
+  .terminal-window {
+    @apply rounded-lg border border-terminal-border bg-terminal-bg shadow-xl;
+    box-shadow: var(--shadow-terminal);
+  }
+  
+  .terminal-title-bar {
+    @apply h-8 bg-terminal-title-bar rounded-t-lg flex items-center px-4 border-b border-terminal-border;
+    background: linear-gradient(180deg, hsl(var(--terminal-title-bar)), hsl(var(--terminal-bg)));
+    box-shadow: var(--shadow-terminal-inset);
+  }
+  
+  .traffic-lights {
+    @apply flex gap-2;
+  }
+  
+  .traffic-light {
+    @apply w-3 h-3 rounded-full transition-opacity duration-200;
+  }
+  
+  .traffic-light.red {
+    background-color: hsl(var(--dot-red));
+  }
+  
+  .traffic-light.yellow {
+    background-color: hsl(var(--dot-yellow));
+  }
+  
+  .traffic-light.green {
+    background-color: hsl(var(--dot-green));
+  }
+  
+  .traffic-light:hover {
+    @apply opacity-80;
+  }
+  
+  /* Terminal content area */
+  .terminal-content {
+    @apply bg-terminal-bg rounded-b-lg overflow-hidden;
   }
 }

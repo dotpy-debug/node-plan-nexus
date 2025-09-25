@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { fontFamily } from "tailwindcss/defaultTheme";
 
 export default {
   darkMode: ["class"],
@@ -13,12 +14,19 @@ export default {
       },
     },
     extend: {
-      colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        colors: {
+          border: "hsl(var(--border))",
+          input: "hsl(var(--input))",
+          ring: "hsl(var(--ring))",
+          background: "hsl(var(--background))",
+          foreground: "hsl(var(--foreground))",
+          "terminal-bg": "hsl(var(--terminal-bg))",
+          "terminal-border": "hsl(var(--terminal-border))",
+          "terminal-title-bar": "hsl(var(--terminal-title-bar))",
+          "terminal-text": "hsl(var(--terminal-text))",
+          "dot-red": "hsl(var(--dot-red))",
+          "dot-yellow": "hsl(var(--dot-yellow))",
+          "dot-green": "hsl(var(--dot-green))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -58,6 +66,10 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
         canvas: "hsl(var(--canvas))",
+      },
+      fontFamily: {
+        sans: ["var(--font-sans)", ...fontFamily.sans],
+        mono: ["SF Mono", "Monaco", "Cascadia Code", "Roboto Mono", "Consolas", "Courier New", "monospace"],
       },
       backgroundImage: {
         "gradient-primary": "var(--gradient-primary)",
