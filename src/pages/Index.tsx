@@ -2,10 +2,8 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/layout/AppSidebar';
-import { TaskStats } from '@/components/tasks/TaskStats';
-import { TaskFilters } from '@/components/tasks/TaskFilters';
-import { TaskBoard } from '@/components/tasks/TaskBoard';
-import Flows from './Flows';
+import { Tasks } from './Tasks';
+import { Flows } from './Flows';
 import Dashboard from './Dashboard';
 
 // Mock data for development
@@ -118,51 +116,34 @@ const Index = () => {
   const renderContent = () => {
     switch (location.pathname) {
       case '/tasks':
-        return (
-          <div className="bg-gradient-canvas min-h-screen">
-            <div className="p-6 space-y-6">
-              <div>
-                <h1 className="text-2xl font-bold bg-gradient-text bg-clip-text text-transparent">
-                  Tasks
-                </h1>
-                <p className="text-muted-foreground">
-                  Manage your tasks and track progress
-                </p>
-              </div>
-              
-              <TaskStats />
-              <TaskFilters />
-              <TaskBoard />
-            </div>
-          </div>
-        );
+        return <Tasks />;
       case '/flows':
         return <Flows />;
       case '/calendar':
         return (
-          <div className="p-6 bg-gradient-canvas min-h-screen">
-            <h1 className="text-2xl font-bold bg-gradient-text bg-clip-text text-transparent mb-4">
+          <div className="p-6 bg-terminal-bg min-h-screen">
+            <h1 className="text-2xl font-mono text-terminal-foreground mb-4">
               Calendar View
             </h1>
-            <p className="text-muted-foreground">Calendar view coming soon...</p>
+            <p className="text-terminal-foreground/60 font-mono">Calendar view coming soon...</p>
           </div>
         );
       case '/reports':
         return (
-          <div className="p-6 bg-gradient-canvas min-h-screen">
-            <h1 className="text-2xl font-bold bg-gradient-text bg-clip-text text-transparent mb-4">
+          <div className="p-6 bg-terminal-bg min-h-screen">
+            <h1 className="text-2xl font-mono text-terminal-foreground mb-4">
               Reports & Analytics
             </h1>
-            <p className="text-muted-foreground">Reports and analytics coming soon...</p>
+            <p className="text-terminal-foreground/60 font-mono">Reports and analytics coming soon...</p>
           </div>
         );
       case '/settings':
         return (
-          <div className="p-6 bg-gradient-canvas min-h-screen">
-            <h1 className="text-2xl font-bold bg-gradient-text bg-clip-text text-transparent mb-4">
+          <div className="p-6 bg-terminal-bg min-h-screen">
+            <h1 className="text-2xl font-mono text-terminal-foreground mb-4">
               Settings
             </h1>
-            <p className="text-muted-foreground">Settings panel coming soon...</p>
+            <p className="text-terminal-foreground/60 font-mono">Settings panel coming soon...</p>
           </div>
         );
       default:

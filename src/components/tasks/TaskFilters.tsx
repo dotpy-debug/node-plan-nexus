@@ -3,16 +3,21 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { useTaskStore } from '@/store/taskStore';
+import { AdvancedTaskFilters } from './AdvancedTaskFilters';
 import { 
   Search, 
-  Filter,
   X,
   List,
   LayoutGrid,
-  Calendar as CalendarIcon
+  Calendar as CalendarIcon,
+  Plus
 } from 'lucide-react';
 
-export const TaskFilters: React.FC = () => {
+interface TaskFiltersProps {
+  onCreateTask?: () => void;
+}
+
+export const TaskFilters: React.FC<TaskFiltersProps> = ({ onCreateTask }) => {
   const { filter, setFilter, clearFilter, viewMode, setViewMode } = useTaskStore();
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +42,17 @@ export const TaskFilters: React.FC = () => {
   return (
     <div className="flex items-center justify-between gap-4 mb-6">
       <div className="flex items-center gap-4 flex-1">
+        {/* Create Task Button */}
+        {onCreateTask && (
+          <Button 
+            onClick={onCreateTask}
+            className="bg-terminal-green hover:bg-terminal-green/80 text-terminal-bg font-mono"
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            New Task
+          </Button>
+        )}
+
         {/* Search */}
         <div className="relative max-w-sm">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -44,7 +60,7 @@ export const TaskFilters: React.FC = () => {
             placeholder="Search tasks..."
             value={filter.search || ''}
             onChange={handleSearchChange}
-            className="pl-10 pr-10 bg-card/50 border-border/50"
+            className="pl-10 pr-10 bg-terminal-bg/50 border-terminal-border/50 font-mono"
           />
           {filter.search && (
             <Button
@@ -58,20 +74,12 @@ export const TaskFilters: React.FC = () => {
           )}
         </div>
 
-        {/* Filter Button */}
-        <Button variant="outline" size="sm" className="bg-card/50 border-border/50">
-          <Filter className="h-4 w-4 mr-2" />
-          Filters
-          {hasActiveFilters && (
-            <Badge variant="secondary" className="ml-2 h-5 w-5 p-0 text-xs">
-              !
-            </Badge>
-          )}
-        </Button>
+        {/* Advanced Filters */}
+        <AdvancedTaskFilters />
 
         {/* Clear Filters */}
         {hasActiveFilters && (
-          <Button variant="ghost" size="sm" onClick={clearFilter}>
+          <Button variant="ghost" size="sm" onClick={clearFilter} className="font-mono">
             <X className="h-4 w-4 mr-2" />
             Clear
           </Button>
@@ -79,17 +87,17 @@ export const TaskFilters: React.FC = () => {
       </div>
 
       {/* View Mode Toggle */}
-      <div className="flex items-center bg-card/50 rounded-lg border border-border/50 p-1">
+      <div className="flex items-center bg-terminal-bg/50 rounded-lg border border-terminal-border/50 p-1">
         {viewModes.map((mode) => (
           <Button
             key={mode.id}
             size="sm"
             variant={viewMode === mode.id ? "default" : "ghost"}
             onClick={() => setViewMode(mode.id)}
-            className={`h-8 px-3 ${
+            className={`h-8 px-3 font-mono ${
               viewMode === mode.id 
-                ? 'bg-primary text-primary-foreground' 
-                : 'hover:bg-accent/50'
+                ? 'bg-terminal-blue text-terminal-bg' 
+                : 'hover:bg-terminal-bg/70 text-terminal-foreground'
             }`}
           >
             <mode.icon className="h-4 w-4 mr-2" />

@@ -7,6 +7,7 @@ interface TaskFilter {
   assignee?: string[];
   labels?: string[];
   search?: string;
+  dueDate?: string;
 }
 
 interface TaskStore {

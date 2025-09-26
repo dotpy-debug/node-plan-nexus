@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useTaskStore } from '@/store/taskStore';
 import { Task } from '@/types';
+import { TaskDialog } from './TaskDialog';
+import { CreateTaskDialog } from './CreateTaskDialog';
 import { 
   MoreHorizontal, 
   Calendar,
   User,
   MessageCircle,
-  Flag
+  Flag,
+  Plus
 } from 'lucide-react';
 
 const columns = [
@@ -27,7 +30,9 @@ const priorityColors = {
 };
 
 export const TaskBoard: React.FC = () => {
-  const { getTasksByStatus, setSelectedTask } = useTaskStore();
+  const { getTasksByStatus, selectedTask, setSelectedTask } = useTaskStore();
+  const [createTaskOpen, setCreateTaskOpen] = useState(false);
+  const [createTaskStatus, setCreateTaskStatus] = useState<string>('todo');
 
   return (
     <div className="p-6 h-full overflow-auto">
@@ -53,14 +58,31 @@ export const TaskBoard: React.FC = () => {
               
               <Button 
                 variant="ghost" 
-                className="w-full h-20 border-2 border-dashed border-border/50 hover:border-primary/50 hover:bg-card/50"
+                onClick={() => {
+                  setCreateTaskStatus(column.id);
+                  setCreateTaskOpen(true);
+                }}
+                className="w-full h-20 border-2 border-dashed border-terminal-border/50 hover:border-terminal-green/50 hover:bg-terminal-bg/30 font-mono"
               >
-                + Add Task
+                <Plus className="h-4 w-4 mr-2" />
+                Add Task
               </Button>
             </div>
           </div>
         ))}
       </div>
+
+      {/* Dialogs */}
+      <TaskDialog 
+        task={selectedTask} 
+        open={!!selectedTask} 
+        onClose={() => setSelectedTask(null)} 
+      />
+      <CreateTaskDialog 
+        open={createTaskOpen} 
+        onClose={() => setCreateTaskOpen(false)}
+        defaultStatus={createTaskStatus}
+      />
     </div>
   );
 };
@@ -73,7 +95,7 @@ interface TaskCardProps {
 const TaskCard: React.FC<TaskCardProps> = ({ task, onClick }) => {
   return (
     <Card 
-      className="p-4 cursor-pointer hover:shadow-glow transition-all duration-200 bg-card/60 backdrop-blur-sm border-border/50 hover:border-primary/50"
+      className="p-4 cursor-pointer hover:shadow-glow transition-all duration-200 bg-terminal-bg/30 backdrop-blur-sm border-terminal-border/50 hover:border-terminal-green/50"
       onClick={onClick}
     >
       <div className="flex items-start justify-between mb-3">
