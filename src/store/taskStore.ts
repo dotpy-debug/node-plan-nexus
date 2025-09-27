@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { Task, ViewMode, Label } from '@/types';
+import { mockTasks } from './mockData';
 
 interface TaskFilter {
   status?: string[];
@@ -34,7 +35,7 @@ interface TaskStore {
 }
 
 export const useTaskStore = create<TaskStore>((set, get) => ({
-  tasks: [],
+  tasks: mockTasks,
   selectedTask: null,
   viewMode: 'board',
   filter: {},

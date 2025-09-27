@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import {
   ReactFlow,
   MiniMap,
@@ -22,6 +22,9 @@ import { useFlowStore } from '@/store/flowStore';
 import { TriggerNode } from './nodes/TriggerNode';
 import { ActionNode } from './nodes/ActionNode';
 import { ConditionNode } from './nodes/ConditionNode';
+import { FlowExecutionEngine } from './FlowExecutionEngine';
+import { FlowRunHistory } from './FlowRunHistory';
+import { NodeConfigurationPanel } from './NodeConfigurationPanel';
 
 const nodeTypes = {
   trigger: TriggerNode,
@@ -48,6 +51,8 @@ export const FlowCanvas: React.FC = () => {
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [selectedNode, setSelectedNode] = useState<FlowNodeType | null>(null);
+  const [configPanelOpen, setConfigPanelOpen] = useState(false);
   const { selectedFlow, updateFlowGraph } = useFlowStore();
 
   const onConnect = useCallback(
@@ -114,7 +119,32 @@ export const FlowCanvas: React.FC = () => {
 
   const handleTest = () => {
     console.log('Testing flow...', { nodes, edges });
-    // TODO: Implement flow testing
+  };
+
+  const handleNodeClick = (event: React.MouseEvent, node: Node) => {
+    const flowNode: FlowNodeType = {
+      id: node.id,
+      type: node.type as any,
+      position: node.position,
+      data: node.data
+    };
+    setSelectedNode(flowNode);
+    setConfigPanelOpen(true);
+  };
+
+  const handleNodeConfigSave = (nodeId: string, config: any) => {
+    setNodes(nds => nds.map(node => 
+      node.id === nodeId 
+        ? { ...node, data: { ...node.data, ...config } }
+        : node
+    ));
+  };
+
+  const handleDeleteNode = (nodeId: string) => {
+    setNodes(nds => nds.filter(node => node.id !== nodeId));
+    setEdges(eds => eds.filter(edge => 
+      edge.source !== nodeId && edge.target !== nodeId
+    ));
   };
 
   return (
@@ -188,6 +218,7 @@ export const FlowCanvas: React.FC = () => {
             onConnect={onConnect}
             onDrop={onDrop}
             onDragOver={onDragOver}
+            onNodeClick={handleNodeClick}
             nodeTypes={nodeTypes}
             className="bg-canvas"
             fitView
@@ -205,7 +236,40 @@ export const FlowCanvas: React.FC = () => {
             />
           </ReactFlow>
         </div>
+
+        {/* Side Panel */}
+        <div className="w-80 flex flex-col gap-4 p-4 overflow-auto">
+          <FlowExecutionEngine
+            flowId={selectedFlow?.id || 'test'}
+            nodes={nodes.map(node => ({
+              id: node.id,
+              type: node.type as any,
+              position: node.position,
+              data: node.data
+            }))}
+            edges={edges.map(edge => ({
+              id: edge.id,
+              source: edge.source,
+              target: edge.target,
+              type: edge.type
+            }))}
+          />
+          
+          <FlowRunHistory flowId={selectedFlow?.id} />
+        </div>
       </div>
+
+      {/* Configuration Panel */}
+      <NodeConfigurationPanel
+        node={selectedNode}
+        isOpen={configPanelOpen}
+        onClose={() => {
+          setConfigPanelOpen(false);
+          setSelectedNode(null);
+        }}
+        onSave={handleNodeConfigSave}
+        onDelete={handleDeleteNode}
+      />
     </div>
   );
 };

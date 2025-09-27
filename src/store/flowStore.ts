@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { Flow, FlowNode, FlowEdge, FlowRun } from '@/types';
+import { mockFlows } from './mockData';
 
 interface FlowStore {
   flows: Flow[];
@@ -24,7 +25,7 @@ interface FlowStore {
 }
 
 export const useFlowStore = create<FlowStore>((set, get) => ({
-  flows: [],
+  flows: mockFlows,
   selectedFlow: null,
   flowRuns: [],
   isCanvasOpen: false,

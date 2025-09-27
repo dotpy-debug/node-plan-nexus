@@ -1,35 +1,26 @@
 import React, { useState } from 'react';
-import { TaskBoard } from '@/components/tasks/TaskBoard';
+import { TaskBoardDragDrop } from '@/components/tasks/TaskBoardDragDrop';
+import { TaskListView } from '@/components/tasks/TaskListView';
+import { TaskCalendarView } from '@/components/tasks/TaskCalendarView';
 import { TaskFilters } from '@/components/tasks/TaskFilters';
 import { CreateTaskDialog } from '@/components/tasks/CreateTaskDialog';
+import { TaskDialog } from '@/components/tasks/TaskDialog';
 import { useTaskStore } from '@/store/taskStore';
 
 export const Tasks: React.FC = () => {
-  const { viewMode } = useTaskStore();
+  const { viewMode, selectedTask, setSelectedTask } = useTaskStore();
   const [createTaskOpen, setCreateTaskOpen] = useState(false);
 
   const renderContent = () => {
     switch (viewMode) {
       case 'board':
-        return <TaskBoard />;
+        return <TaskBoardDragDrop />;
       case 'list':
-        return (
-          <div className="p-6">
-            <div className="text-center text-terminal-foreground/60 font-mono">
-              List view coming soon...
-            </div>
-          </div>
-        );
+        return <TaskListView />;
       case 'calendar':
-        return (
-          <div className="p-6">
-            <div className="text-center text-terminal-foreground/60 font-mono">
-              Calendar view coming soon...
-            </div>
-          </div>
-        );
+        return <TaskCalendarView />;
       default:
-        return <TaskBoard />;
+        return <TaskBoardDragDrop />;
     }
   };
 
@@ -46,6 +37,12 @@ export const Tasks: React.FC = () => {
       <CreateTaskDialog 
         open={createTaskOpen} 
         onClose={() => setCreateTaskOpen(false)} 
+      />
+
+      <TaskDialog 
+        task={selectedTask} 
+        open={!!selectedTask} 
+        onClose={() => setSelectedTask(null)} 
       />
     </div>
   );
