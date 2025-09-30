@@ -169,4 +169,10 @@
   .terminal-content {
     @apply bg-terminal-bg rounded-b-lg overflow-hidden;
   }
+  
+  /* Dotted Background Pattern */
+  .bg-dot-pattern {
+    background-image: radial-gradient(circle, hsl(var(--muted-foreground) / 0.15) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
 }
